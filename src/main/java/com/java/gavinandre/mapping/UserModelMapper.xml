@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--<mapper namespace="com.java.gavinandre.pojo.UserModel">-->
+<mapper namespace="com.java.gavinandre.pojo.UserModel">
+
+    <!-- PROCESSDEFINITION INSERT -->
+
+    <insert id="insertUser" parameterType="com.java.gavinandre.pojo.UserModel">
+        INSERT INTO
+            SVN_USER (ID_, NAME_, REALNAME_, PASSWORD_, MOBILEPHONE_, CREATE_TIME_)
+        VALUES
+            (#{id,jdbcType=BIGINT},
+             #{userName, jdbcType=VARCHAR},
+             #{realName,jdbcType=VARCHAR},
+             #{userPwd, jdbcType=VARCHAR},
+             #{phoneNum,jdbcType=VARCHAR},
+             #{createDate,jdbcType=TIMESTAMP})
+    </insert>
+
+    <update id="idDeleteUser" parameterType="long">
+        DELETE FROM
+            SVN_USER
+        WHERE ID_ = #{id,jdbcType=BIGINT}
+    </update>
+
+
+    <resultMap id="userResultMap" type="com.java.gavinandre.pojo.UserModel">
+        <id property="id" column="ID_" jdbcType="BIGINT"/>
+        <result property="userName" column="NAME_" jdbcType="VARCHAR"/>
+        <result property="realName" column="REALNAME_" jdbcType="VARCHAR"/>
+        <result property="userPwd" column="PASSWORD_" jdbcType="VARCHAR"/>
+        <result property="phoneNum" column="MOBILEPHONE_" jdbcType="VARCHAR"/>
+        <result property="createDate" column="CREATE_TIME_" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="idGetUser" parameterType="string" resultMap="userResultMap">
+        SELECT *
+        FROM SVN_USER
+        WHERE ID_ = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="countUser" resultType="int">
+        SELECT COUNT(1)
+        FROM
+            SVN_USER
+    </select>
+
+    <select id="listUser" resultMap="userResultMap">
+        SELECT *
+        FROM SVN_USER
+    </select>
+
+    <select id="pageCountUser" resultType="int" parameterType="map">
+        select count(1) from SVN_USER ST
+        <where>
+            <if test="id!=null and id!='' ">
+                ST.ID_ = #{id}
+            </if>
+            <if test="name!= null and name!= '' ">
+                AND ST.NAME_ LIKE CONCAT(CONCAT('%', #{name}),'%')
+            </if>
+            <if test="codePrefix !=null and codePrefix!='' ">
+                AND ST.CODEPREFIX_ = #{codePrefix}
+            </if>
+            <if test="active !=null ">
+                AND ST.ACTIVE_ = #{active}
+            </if>
+            <if test="description !=null and description!='' ">
+                AND ST.DESCRIPTION_ = #{description}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="pageUser" resultMap="userResultMap"
+            parameterType="map">
+        select * from SVN_USER ST
+        <where>
+            <if test="id!=null and id!='' ">
+                ST.ID_ = #{id}
+            </if>
+            <if test="name!= null and name!= '' ">
+                AND ST.NAME_ LIKE CONCAT(CONCAT('%', #{name}),'%')
+            </if>
+            <if test="codePrefix !=null and codePrefix!='' ">
+                AND ST.CODEPREFIX_ = #{codePrefix}
+            </if>
+            <if test="active !=null ">
+                AND ST.ACTIVE_ = #{active}
+            </if>
+            <if test="description !=null and description!='' ">
+                AND ST.DESCRIPTION_ = #{description}
+            </if>
+        </where>
+        <if test="startNum!=null">
+            LIMIT ${startNum} , ${pageSize}
+        </if>
+
+        <if test="orderBy!=null and orderBy!='' ">
+            ${orderBy}
+        </if>
+
+    </select>
+
+
+    <select id="selectMap" resultType="map" parameterType="map">
+        SELECT *
+        FROM SVN_USER
+    </select>
+
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.gavinandre.pojo.MonsterMaterial">
+
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.java.gavinandre.pojo.MonsterMaterial">
+        <id column="id" property="mid"/>
+        <result column="name" property="name"/>
+        <result column="count" property="count"/>
+        <result column="price" property="price"/>
+        <result column="is_update" property="isUpdate"/>
+        <result column="monster_id" property="monsterId"/>
+        <association property="monsterName" javaType="String">
+            <result column="monster_name" property="monsterName"/>
+        </association>
+    </resultMap>
+
+    <sql id="monster_material_column">
+        a.id,
+        a.name,
+        a.count,
+        a.price,
+        a.price,
+        a.is_update,
+        a.monster_id,
+        b.name as monster_name
+    </sql>
+
+    <select id="listMonsterMaterial" resultMap="AllColumnMap">
+
+        SELECT
+        <include refid="monster_material_column"/>
+        FROM material a LEFT JOIN monster b ON a.monster_id = b.id
+        WHERE monster_id!=0;
+
+        <!--SELECT
+        FROM material
+        WHERE monster_id != 0-->
+    </select>
+</mapper>
