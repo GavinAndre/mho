@@ -1,5 +1,5 @@
 # mho
-使用Idea搭建的基于Maven的后台练手作品,使用了Spring,SpringMVC,Mybatis三大框架，数据库使用MySql
+使用IntelliJ IDEA搭建的基于Maven的后台练手作品,使用了Spring,SpringMVC,Mybatis三大框架，数据库使用MySql
 
 单表查询
 
